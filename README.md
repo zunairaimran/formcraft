@@ -30,6 +30,7 @@ All settings are environment variables; none are needed to run locally.
 | `PORT` | `3000` | Port the server listens on |
 | `DATA_DIR` | `./data` | Folder for the database and uploaded files. On a host, set it to a permanent disk |
 | `TRUST_PROXY` | off | Set to `1` behind a hosting proxy so rate limits see the visitor's real IP |
+| `DEMO_MODE` | off | Set to `1` on hosting without a permanent disk; every page then shows that data can be reset |
 
 `GET /healthz` answers `{"ok":true}` when the server and database work; hosts use it as a health check.
 
@@ -40,13 +41,14 @@ on every restart (most free plans) would delete every account, form and response
 
 ### Option A: Render (simplest)
 
-1. Put the contents of this `formcraft` folder in a GitHub repository (on github.com: *New repository*,
-   then *uploading an existing file* and drag the files in; the `data` folder must **not** be uploaded).
-2. On render.com: *New* > *Blueprint*, pick the repository. Render reads `render.yaml` and creates
-   the web service with a 1 GB disk at `/var/data`.
+1. Put the contents of this `formcraft` folder in a GitHub repository (the `data` folder must **not** be uploaded).
+2. On render.com: *New* > *Blueprint*, pick the repository. Render reads `render.yaml` and creates the web service.
 3. Wait for the deploy, then open the `https://….onrender.com` address it gives you.
 
-A disk needs Render's paid **Starter** instance.
+`render.yaml` uses Render's **free** plan, which is fine for a demo but has no permanent disk:
+every restart or new deploy deletes all data, and the site sleeps after 15 idle minutes.
+`DEMO_MODE=1` makes every page say so. For real customers, follow the steps at the top of
+`render.yaml` to switch to the paid **Starter** plan with a 1 GB disk at `/var/data`.
 
 ### Option B: any Docker host (Railway, Fly.io, a VPS)
 

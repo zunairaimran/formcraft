@@ -12,6 +12,8 @@ import { TEMPLATES } from './templates.js';
 const PORT = Number(process.env.PORT) || 3000;
 // Set TRUST_PROXY=1 when the app runs behind the hosting service's proxy, so the real visitor IP is used
 const TRUST_PROXY = process.env.TRUST_PROXY === '1';
+// Set DEMO_MODE=1 on hosting without a permanent disk; pages then warn that data can be reset
+const DEMO_MODE = process.env.DEMO_MODE === '1';
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(ROOT, 'public');
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
@@ -528,7 +530,7 @@ route('POST', '/api/logout', ({ req, res }) => {
 route('GET', '/api/me', ({ user, res }) => sendJson(res, 200, { user }));
 
 // Lists the builder shows: colour themes and moving backgrounds
-route('GET', '/api/options', ({ res }) => sendJson(res, 200, { themes: THEMES, visuals: VISUALS }), { auth: false });
+route('GET', '/api/options', ({ res }) => sendJson(res, 200, { themes: THEMES, visuals: VISUALS, demo: DEMO_MODE }), { auth: false });
 
 // --- forms ---
 
@@ -931,6 +933,7 @@ server.on('error', (err) => {
 server.listen(PORT, () => {
   console.log(`FormCraft is running at http://localhost:${PORT}`);
   console.log(`Data folder: ${DATA_DIR}`);
+  if (DEMO_MODE) console.log('Demo mode: pages show that data can be reset');
 });
 
 // Hosting services stop the app with SIGTERM when they deploy a new version; finish cleanly

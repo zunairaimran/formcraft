@@ -98,6 +98,18 @@ async function uploadFile(url, file) {
   return data;
 }
 
+// On a demo deployment (no permanent disk) show a small notice that data can disappear
+fetch('/api/options')
+  .then((res) => res.json())
+  .then((options) => {
+    if (!options.demo) return;
+    const note = document.createElement('div');
+    note.className = 'demo-note';
+    note.textContent = 'Demo site: accounts, forms and responses can be reset at any time.';
+    document.body.appendChild(note);
+  })
+  .catch(() => {});
+
 // Put an uploaded picture behind a themed area (or remove it)
 function applyBackground(el, url) {
   el.style.backgroundImage = url ? `url("${url}")` : '';

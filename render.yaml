@@ -1,21 +1,32 @@
 # Render blueprint: create the service from this file with "New > Blueprint" on render.com.
-# A permanent disk needs a paid instance (Starter); without it, every restart deletes all data.
+#
+# This is the FREE setup, good for a demo:
+#   - there is no permanent disk, so every restart or new deploy deletes all accounts, forms and responses
+#   - the site sleeps after 15 minutes without visitors; the next visit takes about a minute to wake it
+# DEMO_MODE=1 shows a small "demo site" notice so visitors know their data can disappear.
+#
+# For real customers, switch to the paid setup with a permanent disk:
+#   1. change  plan: free  to  plan: starter
+#   2. delete the DEMO_MODE lines and add:
+#        - key: DATA_DIR
+#          value: /var/data
+#   3. add under the service (same indent as envVars):
+#        disk:
+#          name: formcraft-data
+#          mountPath: /var/data
+#          sizeGB: 1
 services:
   - type: web
     name: formcraft
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /healthz
     envVars:
       - key: NODE_VERSION
         value: "24"
-      - key: DATA_DIR
-        value: /var/data
       - key: TRUST_PROXY
         value: "1"
-    disk:
-      name: formcraft-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: DEMO_MODE
+        value: "1"
