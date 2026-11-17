@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormCraft — build forms, collect data</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="/"><span class="logo-mark">F</span>FormCraft</a>
+    <div class="spacer"></div>
+    <a class="btn" href="/login" id="nav-login">Log in</a>
+    <a class="btn btn-primary" href="/signup" id="nav-cta">Sign up free</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Build your own form in <span>minutes</span></h1>
+        <p>Pick the questions you need, choose a look, and share one link. Every answer lands in one place, ready to read and export.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-big" href="/signup" id="hero-cta">Create a form</a>
+          <a class="btn btn-big" href="#how">See how it works</a>
+        </div>
+      </div>
+      <div class="mock" aria-hidden="true">
+        <h3>Event registration</h3>
+        <div class="mock-field"><span>Full name</span><div></div></div>
+        <div class="mock-field"><span>Roll number</span><div></div></div>
+        <div class="mock-field"><span>Semester</span><div></div></div>
+        <div class="mock-btn"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="how">
+    <div class="feature">
+      <div class="num">1</div>
+      <h3>Build</h3>
+      <p>Add text, choice, date and file upload questions, split long forms into pages, and show questions only when they apply.</p>
+    </div>
+    <div class="feature">
+      <div class="num">2</div>
+      <h3>Style and share</h3>
+      <p>Pick from 15 colour themes and 19 moving backgrounds like bubbles, stars and strawberries, or use your own picture. Then share the link or QR code.</p>
+    </div>
+    <div class="feature">
+      <div class="num">3</div>
+      <h3>Collect and select</h3>
+      <p>Filter responses by any answer, see the SQL behind the list, and give limited seats to eligible people with a waiting list for the rest.</p>
+    </div>
+  </section>
+
+  <footer class="footer">FormCraft — a university web project built with HTML, CSS, JavaScript, Node.js and SQL.</footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/visuals.js"></script>
+  <script>
+    Visuals.mount(document.querySelector('.hero'), 'bubbles', 'absolute');
+
+    // Logged-in visitors go straight to their dashboard from the buttons
+    api('GET', '/api/me').then(() => {
+      document.getElementById('nav-login').classList.add('hidden');
+      for (const id of ['nav-cta', 'hero-cta']) {
+        const link = document.getElementById(id);
+        link.href = '/dashboard';
+        link.textContent = 'Go to dashboard';
+      }
+    }).catch(() => {});
+  </script>
+</body>
+</html>

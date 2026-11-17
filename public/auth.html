@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormCraft — account</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="/"><span class="logo-mark">F</span>FormCraft</a>
+  </header>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1 id="heading"></h1>
+      <p class="muted" id="sub" style="margin:0"></p>
+
+      <form id="auth-form" novalidate>
+        <div id="name-row">
+          <label class="label" for="name">Name</label>
+          <input class="input" id="name" autocomplete="name" placeholder="Ayesha Khan">
+        </div>
+        <div>
+          <label class="label" for="email">Email</label>
+          <input class="input" id="email" type="email" autocomplete="email" placeholder="name@university.edu">
+        </div>
+        <div>
+          <label class="label" for="password">Password</label>
+          <input class="input" id="password" type="password" placeholder="At least 6 characters">
+        </div>
+        <p class="error" id="error" role="alert"></p>
+        <button class="btn btn-primary btn-big" id="submit" type="submit"></button>
+      </form>
+
+      <p class="muted" style="margin:18px 0 0;font-size:14px" id="switch"></p>
+    </div>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script>
+    // The same page works as /login and /signup
+    const isSignup = location.pathname === '/signup';
+    const $ = (id) => document.getElementById(id);
+
+    $('heading').textContent = isSignup ? 'Create your account' : 'Welcome back';
+    $('sub').textContent = isSignup ? 'Start building forms in a minute.' : 'Log in to see your forms.';
+    $('submit').textContent = isSignup ? 'Sign up' : 'Log in';
+    $('name-row').classList.toggle('hidden', !isSignup);
+    $('password').autocomplete = isSignup ? 'new-password' : 'current-password';
+    $('switch').innerHTML = isSignup
+      ? 'Already have an account? <a href="/login">Log in</a>'
+      : 'New here? <a href="/signup">Create an account</a>';
+
+    // Already logged in? Skip this page.
+    api('GET', '/api/me').then(() => { location.href = '/dashboard'; }).catch(() => {});
+
+    $('auth-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      $('error').textContent = '';
+      $('submit').disabled = true;
+      try {
+        await api('POST', isSignup ? '/api/signup' : '/api/login', {
+          name: $('name').value,
+          email: $('email').value,
+          password: $('password').value,
+        });
+        location.href = '/dashboard';
+      } catch (err) {
+        $('error').textContent = err.message;
+        $('submit').disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

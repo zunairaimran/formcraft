@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormCraft — builder</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="builder-page">
+  <header class="topbar">
+    <a class="btn btn-small" href="/dashboard">&larr; Forms</a>
+    <span class="save-state" id="save-state"></span>
+    <div class="spacer"></div>
+    <a class="btn btn-small" id="responses-link" href="#">Responses</a>
+    <button class="btn btn-small" id="preview">Preview</button>
+    <button class="btn btn-small btn-primary" id="save">Save</button>
+  </header>
+
+  <div class="builder">
+    <aside class="panel panel-left">
+      <h2>Add a question</h2>
+      <div id="palette"></div>
+    </aside>
+
+    <main class="canvas themed" id="canvas">
+      <div class="canvas-scroll">
+        <div class="canvas-inner">
+          <input class="title-input" id="title" maxlength="150" placeholder="Form title" aria-label="Form title">
+          <textarea class="desc-input" id="description" rows="2" maxlength="1000" placeholder="Describe what this form is for" aria-label="Form description"></textarea>
+          <div id="fields" style="margin-top:18px"></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel panel-right">
+      <section>
+        <h2>Colour theme</h2>
+        <div class="swatches" id="swatches"></div>
+      </section>
+      <section>
+        <h2>Moving background</h2>
+        <div class="visual-grid" id="visuals"></div>
+        <p class="hint">Plays behind the form for everyone who opens it.</p>
+      </section>
+      <section>
+        <h2>Background image</h2>
+        <div class="bg-preview" id="bg-preview"></div>
+        <div class="row-btns">
+          <label class="btn btn-small" for="bg-file">Upload image</label>
+          <input type="file" id="bg-file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+          <button class="btn btn-small btn-danger" id="bg-remove">Remove</button>
+        </div>
+        <p class="hint">PNG, JPG, WEBP or GIF, up to 3 MB. It shows behind your form.</p>
+      </section>
+      <section>
+        <h2>Responses</h2>
+        <label class="check"><input type="checkbox" id="is-open"> Accepting responses</label>
+        <p class="hint">Turn this off to close the form.</p>
+        <label class="label" for="limit" style="margin-top:14px">Response limit</label>
+        <input class="input" id="limit" type="number" min="0" step="1" placeholder="No limit">
+        <p class="hint">The form closes by itself after this many responses.</p>
+        <label class="label" for="thank-you" style="margin-top:14px">Thank-you message</label>
+        <textarea class="textarea" id="thank-you" maxlength="500" placeholder="Your response has been recorded."></textarea>
+      </section>
+      <section>
+        <h2>Share</h2>
+        <div class="share">
+          <input class="input" id="link" readonly aria-label="Share link">
+          <button class="btn btn-small" id="copy">Copy</button>
+        </div>
+        <p class="hint">Anyone with this link can fill in the form.</p>
+        <div id="qr-wrap">
+          <div class="qr" id="qr"></div>
+          <div><button class="btn btn-small" id="qr-download">Download QR code</button></div>
+          <p class="hint hidden" id="qr-local">This link uses "localhost", so a phone can't open it. Open FormCraft with this computer's network address to share it on the same Wi-Fi.</p>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/visuals.js"></script>
+  <script src="/js/builder.js"></script>
+</body>
+</html>

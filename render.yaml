@@ -1,0 +1,21 @@
+# Render blueprint: create the service from this file with "New > Blueprint" on render.com.
+# A permanent disk needs a paid instance (Starter); without it, every restart deletes all data.
+services:
+  - type: web
+    name: formcraft
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: DATA_DIR
+        value: /var/data
+      - key: TRUST_PROXY
+        value: "1"
+    disk:
+      name: formcraft-data
+      mountPath: /var/data
+      sizeGB: 1

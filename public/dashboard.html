@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormCraft — your forms</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="/dashboard"><span class="logo-mark">F</span>FormCraft</a>
+    <div class="spacer"></div>
+    <span class="muted" id="user-name"></span>
+    <button class="btn btn-small" onclick="logout()">Log out</button>
+  </header>
+
+  <main class="page">
+    <div class="page-head"><h1>Start a new form</h1></div>
+    <div class="templates" id="templates"></div>
+
+    <div class="page-head"><h1>Your forms</h1></div>
+    <div id="forms"></div>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/visuals.js"></script>
+  <script>
+    const list = document.getElementById('forms');
+
+    async function loadTemplates() {
+      const { templates } = await api('GET', '/api/templates');
+      document.getElementById('templates').innerHTML = templates.map((t) => `
+        <button class="template" data-template="${esc(t.id)}">
+          <strong><i aria-hidden="true">${t.visual !== 'none' && Visuals.LIST[t.visual] ? Visuals.LIST[t.visual].icon : '📝'}</i>${esc(t.title)}</strong>
+          <span>${esc(t.blurb)}${t.questions ? ` · ${t.questions} questions` : ''}</span>
+        </button>`).join('');
+    }
+
+    async function loadForms() {
+      const { forms } = await api('GET', '/api/forms');
+      if (!forms.length) {
+        list.className = '';
+        list.innerHTML = '<div class="empty"><strong>Create your first form</strong><br>Pick a starting point above.</div>';
+        return;
+      }
+      list.className = 'form-list';
+      list.innerHTML = forms.map((f) => `
+        <div class="form-card">
+          <div class="form-card-strip themed theme-${esc(f.theme)} ${f.background ? 'has-bg' : ''}"
+               ${f.background ? `style="background-image:url('${esc(f.background)}')"` : ''}></div>
+          <div class="form-card-body">
+            <h3>${esc(f.title)}</h3>
+            <div class="form-card-meta">
+              <span class="badge ${f.is_open ? 'badge-open' : 'badge-closed'}">${f.is_open ? 'Open' : 'Closed'}</span>
+              <span>${f.max_responses ? `${f.response_count} / ${f.max_responses}` : f.response_count} ${f.response_count === 1 && !f.max_responses ? 'response' : 'responses'}</span>
+              ${f.visual !== 'none' && Visuals.LIST[f.visual] ? `<span title="${esc(Visuals.LIST[f.visual].label)}">${Visuals.LIST[f.visual].icon}</span>` : ''}
+            </div>
+          </div>
+          <div class="form-card-actions">
+            <a class="btn btn-small" href="/builder?id=${f.id}">Edit</a>
+            <a class="btn btn-small" href="/responses?id=${f.id}">Responses</a>
+            <button class="btn btn-small" data-copy="${esc(f.slug)}">Copy link</button>
+            <button class="btn btn-small" data-duplicate="${f.id}">Duplicate</button>
+            <button class="btn btn-small btn-danger" data-delete="${f.id}" data-title="${esc(f.title)}">Delete</button>
+          </div>
+        </div>`).join('');
+    }
+
+    list.addEventListener('click', async (event) => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      try {
+        if (button.dataset.copy) {
+          await navigator.clipboard.writeText(publicLink(button.dataset.copy));
+          toast('Link copied');
+        }
+        if (button.dataset.duplicate) {
+          await api('POST', `/api/forms/${button.dataset.duplicate}/duplicate`);
+          toast('Form duplicated');
+          loadForms();
+        }
+        if (button.dataset.delete) {
+          if (!confirm(`Delete "${button.dataset.title}" and all its responses? This can't be undone.`)) return;
+          await api('DELETE', '/api/forms/' + button.dataset.delete);
+          toast('Form deleted');
+          loadForms();
+        }
+      } catch (err) {
+        toast(err.message, true);
+      }
+    });
+
+    document.getElementById('templates').addEventListener('click', async (event) => {
+      const button = event.target.closest('.template');
+      if (!button) return;
+      try {
+        const { form } = await api('POST', '/api/forms', { template: button.dataset.template });
+        location.href = '/builder?id=' + form.id;
+      } catch (err) {
+        toast(err.message, true);
+      }
+    });
+
+    requireUser().then((user) => {
+      document.getElementById('user-name').textContent = user.name;
+      loadTemplates();
+      loadForms();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FormCraft — responses</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="btn btn-small" href="/dashboard">&larr; Forms</a>
+    <div class="spacer"></div>
+    <a class="btn btn-small" id="edit-link" href="#">Edit form</a>
+    <a class="btn btn-small" id="open-link" href="#" target="_blank">Open form</a>
+  </header>
+
+  <main class="page">
+    <div class="page-head">
+      <h1 id="title">Responses</h1>
+      <span class="badge" id="status"></span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span>Total responses</span><strong id="s-total">0</strong></div>
+      <div class="stat"><span>Match the filters</span><strong id="s-matching">0</strong></div>
+      <div class="stat"><span>Selected</span><strong id="s-selected">0</strong></div>
+      <div class="stat"><span>Waiting list</span><strong id="s-waiting">0</strong></div>
+      <div class="stat"><span>Seats left</span><strong id="s-seats">—</strong></div>
+    </div>
+
+    <div class="grid-2">
+      <section class="box">
+        <h2>Filters</h2>
+        <div class="filters" id="filters"></div>
+        <button class="btn btn-small" id="clear">Clear filters</button>
+        <details class="sql" open>
+          <summary>SQL query behind this list</summary>
+          <pre id="sql"></pre>
+        </details>
+      </section>
+
+      <section class="box">
+        <h2>Allocate seats</h2>
+        <p class="hint">Responses that match the filters are eligible. The earliest ones get the seats and the rest go on the waiting list. Everybody else is marked not eligible.</p>
+        <label class="label" for="capacity">Venue capacity (seats)</label>
+        <div class="seat-row">
+          <input class="input" id="capacity" type="number" min="1" step="1" placeholder="50">
+          <button class="btn btn-primary" id="allocate">Allocate seats</button>
+        </div>
+        <p class="error" id="cap-error" role="alert"></p>
+        <button class="btn btn-small" id="reset">Reset all statuses</button>
+      </section>
+    </div>
+
+    <section class="box" id="charts-box">
+      <h2>Answers at a glance</h2>
+      <div class="charts" id="charts"></div>
+    </section>
+
+    <div class="toolbar">
+      <span class="muted" id="showing"></span>
+      <div class="spacer"></div>
+      <button class="btn" id="print">Print list</button>
+      <button class="btn" id="export">Download CSV</button>
+    </div>
+
+    <div id="table"></div>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/responses.js"></script>
+</body>
+</html>

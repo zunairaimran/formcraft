@@ -1,0 +1,4 @@
+# Keep Unix line endings so the files work the same on Linux hosting servers
+* text=auto eol=lf
+*.png binary
+*.jpg binary

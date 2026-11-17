@@ -1,0 +1,4 @@
+# The database and uploaded files belong to the running site, not to the code
+data/
+node_modules/
+*.log
