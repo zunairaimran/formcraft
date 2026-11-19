@@ -3,71 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FormCraft — build forms, collect data</title>
+  <title>FormCraft — build forms, collect data, select the right people</title>
+  <meta name="description" content="Build your own online form, share one link, collect every answer in one place, filter responses with SQL and allocate limited seats automatically.">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <header class="topbar">
     <a class="logo" href="/"><span class="logo-mark">F</span>FormCraft</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#why">Why</a>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#selection">Selection</a>
+      <a href="#templates">Templates</a>
+      <a href="#faq">FAQ</a>
+    </nav>
     <div class="spacer"></div>
     <a class="btn" href="/login" id="nav-login">Log in</a>
-    <a class="btn btn-primary" href="/signup" id="nav-cta">Sign up free</a>
+    <a class="btn btn-primary js-cta" href="/signup">Sign up free</a>
   </header>
 
-  <section class="hero">
+  <!-- Hero with a live demo: the theme and moving background chips really change the page -->
+  <section class="hero themed theme-lavender" id="hero">
     <div class="hero-inner">
       <div>
         <h1>Build your own form in <span>minutes</span></h1>
-        <p>Pick the questions you need, choose a look, and share one link. Every answer lands in one place, ready to read and export.</p>
+        <p class="lead">Make a form with the questions you need, give it a look you love, and share one link.
+          Every answer lands in one place, where you can filter it and pick the right people automatically.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary btn-big" href="/signup" id="hero-cta">Create a form</a>
+          <a class="btn btn-primary btn-big js-cta" href="/signup">Create a form</a>
           <a class="btn btn-big" href="#how">See how it works</a>
         </div>
+        <ul class="hero-points">
+          <li>Free, and nobody needs an account to fill in your form</li>
+          <li>15 colour themes and 19 moving backgrounds</li>
+          <li>Filters, SQL and automatic seat allocation built in</li>
+        </ul>
       </div>
-      <div class="mock" aria-hidden="true">
-        <h3>Event registration</h3>
-        <div class="mock-field"><span>Full name</span><div></div></div>
-        <div class="mock-field"><span>Roll number</span><div></div></div>
-        <div class="mock-field"><span>Semester</span><div></div></div>
-        <div class="mock-btn"></div>
+
+      <div>
+        <div class="demo-controls">
+          <div>
+            <span class="demo-label">Try a theme</span>
+            <div class="chip-row" id="demo-themes"></div>
+          </div>
+          <div>
+            <span class="demo-label">Try a moving background</span>
+            <div class="chip-row" id="demo-visuals"></div>
+          </div>
+        </div>
+        <div class="form-box demo-box">
+          <div class="form-accent"></div>
+          <div class="form-body" id="demo-body"></div>
+        </div>
+        <p class="demo-hint">This is a live preview of a FormCraft form. Nothing you type here is saved.</p>
       </div>
     </div>
   </section>
 
-  <section class="features" id="how">
-    <div class="feature">
-      <div class="num">1</div>
-      <h3>Build</h3>
-      <p>Add text, choice, date and file upload questions, split long forms into pages, and show questions only when they apply.</p>
+  <!-- Purpose -->
+  <section class="section" id="why">
+    <div class="section-head">
+      <span class="eyebrow">Why FormCraft</span>
+      <h2>Collecting data is easy. Choosing from it is not.</h2>
+      <p>Picture a university event on 25 December with 50 seats and 200 interested students.
+        FormCraft collects their details and then helps you select the eligible ones fairly.</p>
     </div>
-    <div class="feature">
-      <div class="num">2</div>
-      <h3>Style and share</h3>
-      <p>Pick from 15 colour themes and 19 moving backgrounds like bubbles, stars and strawberries, or use your own picture. Then share the link or QR code.</p>
-    </div>
-    <div class="feature">
-      <div class="num">3</div>
-      <h3>Collect and select</h3>
-      <p>Filter responses by any answer, see the SQL behind the list, and give limited seats to eligible people with a waiting list for the rest.</p>
+    <div class="compare">
+      <div class="compare-card before">
+        <h3>Without FormCraft</h3>
+        <ul>
+          <li>Names, roll numbers and skills arrive on paper or in WhatsApp messages</li>
+          <li>Somebody copies everything into a sheet by hand</li>
+          <li>Shortlisting by semester or skill means searching row by row</li>
+          <li>Deciding who gets the limited seats is slow and easy to get wrong</li>
+        </ul>
+      </div>
+      <div class="compare-card after">
+        <h3>With FormCraft</h3>
+        <ul>
+          <li>One link or QR code, and every answer is saved in a database</li>
+          <li>Answers are checked as people type, so the data stays clean</li>
+          <li>Filter by semester, skill, CGPA or anything you asked</li>
+          <li>Enter the venue capacity and the seats are allocated in one click</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <footer class="footer">FormCraft — a university web project built with HTML, CSS, JavaScript, Node.js and SQL.</footer>
+  <!-- How it works -->
+  <section class="section-alt" id="how">
+    <div class="section">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>From idea to selected list in four steps</h2>
+      </div>
+      <div class="steps4">
+        <div class="feature">
+          <div class="num">1</div>
+          <h3>Build</h3>
+          <p>Start from a template or a blank form and add the questions you need.</p>
+        </div>
+        <div class="feature">
+          <div class="num">2</div>
+          <h3>Style</h3>
+          <p>Choose a colour theme, a moving background or your own picture.</p>
+        </div>
+        <div class="feature">
+          <div class="num">3</div>
+          <h3>Share</h3>
+          <p>Send the link or show the QR code. People fill it in on any phone or computer.</p>
+        </div>
+        <div class="feature">
+          <div class="num">4</div>
+          <h3>Select</h3>
+          <p>Filter the responses, allocate the seats and download the final list.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All features -->
+  <section class="section" id="features">
+    <div class="section-head">
+      <span class="eyebrow">Features</span>
+      <h2>Everything a form needs, and a little more</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature"><i class="icon" aria-hidden="true">🧩</i><h3>10 question types</h3><p>Short and long text, email, number, date, dropdown, single and multiple choice, file upload and page break.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🔀</i><h3>Smart questions</h3><p>Show a question only for a certain answer, like "Which department?" when someone picks "Other".</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">📄</i><h3>Multi-page forms</h3><p>Split long forms into steps with a progress bar, so they never feel overwhelming.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🎨</i><h3>15 colour themes</h3><p>From soft Lavender and Candy to dark Galaxy and Aurora, or upload your own background picture.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🫧</i><h3>19 moving backgrounds</h3><p>Bubbles, strawberries, stars, hearts, snow, confetti, flowers and more play behind your form.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">📎</i><h3>File uploads</h3><p>Collect images, PDFs, Word and text files up to 5 MB, safely visible only to you.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🔗</i><h3>Link and QR code</h3><p>Share anywhere, and close the form yourself or automatically after a response limit.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🔍</i><h3>Filters with real SQL</h3><p>Filter by any choice or number answer and see the exact SQL query that found the list.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🎟️</i><h3>Seat allocation</h3><p>Earliest eligible responses get the seats; the rest go on a waiting list automatically.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">📊</i><h3>Charts and export</h3><p>See answers at a glance, then download a CSV for Excel or print the list.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">📋</i><h3>Templates</h3><p>Six ready-made forms to start from, and one click to duplicate any form you made.</p></div>
+      <div class="feature"><i class="icon" aria-hidden="true">🔒</i><h3>Safe and private</h3><p>Hashed passwords, private responses per account, checked answers and protection against spam.</p></div>
+    </div>
+  </section>
+
+  <!-- Live seat allocation demo -->
+  <section class="section-alt" id="selection">
+    <div class="section">
+      <div class="section-head">
+        <span class="eyebrow">Seat allocation</span>
+        <h2>See the selection work</h2>
+        <p>Eight students applied for a workshop. Change the rules and the seats below update, exactly like on the responses page.</p>
+      </div>
+      <div class="alloc">
+        <div class="alloc-panel">
+          <div>
+            <label class="label" for="alloc-cap">Venue capacity</label>
+            <div class="row"><input type="range" id="alloc-cap" min="1" max="8" step="1" value="3"><output id="alloc-cap-out">3</output></div>
+          </div>
+          <div>
+            <label class="label" for="alloc-skill">Required skill</label>
+            <select class="select" id="alloc-skill">
+              <option value="">Any skill</option>
+              <option>Programming</option>
+              <option>Design</option>
+            </select>
+          </div>
+          <div>
+            <label class="label" for="alloc-cgpa">Minimum CGPA</label>
+            <select class="select" id="alloc-cgpa">
+              <option value="">No minimum</option>
+              <option value="3">3.0</option>
+              <option value="3.5">3.5</option>
+            </select>
+          </div>
+          <div class="alloc-summary" id="alloc-summary"></div>
+          <pre class="alloc-sql" id="alloc-sql"></pre>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Student</th><th>Semester</th><th>CGPA</th><th>Skill</th><th>Status</th></tr></thead>
+            <tbody id="alloc-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Templates -->
+  <section class="section" id="templates">
+    <div class="section-head">
+      <span class="eyebrow">Templates</span>
+      <h2>Start in seconds</h2>
+      <p>Every template is fully editable, with its own theme and moving background.</p>
+    </div>
+    <div class="tpl-grid">
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">🎉</i><div><strong>Event registration</strong><span>Two pages of student details, with skills and CGPA for selection.</span></div></a>
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">💖</i><div><strong>Feedback form</strong><span>A rating, with a follow-up question when the rating is poor.</span></div></a>
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">🫧</i><div><strong>Contact us</strong><span>Questions and problems, with an optional screenshot.</span></div></a>
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">🍂</i><div><strong>Student survey</strong><span>Semester feedback about teaching and facilities.</span></div></a>
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">🌟</i><div><strong>Volunteer sign-up</strong><span>Available days, preferred role and a CV upload.</span></div></a>
+      <a class="tpl js-cta" href="/signup"><i aria-hidden="true">📝</i><div><strong>Blank form</strong><span>Start from nothing and add your own questions.</span></div></a>
+    </div>
+  </section>
+
+  <!-- Who it is for -->
+  <section class="section-alt">
+    <div class="section">
+      <div class="section-head">
+        <span class="eyebrow">Who it's for</span>
+        <h2>Made for universities, useful for everyone</h2>
+      </div>
+      <div class="use-grid">
+        <div class="use"><i aria-hidden="true">🎓</i><strong>Universities</strong><span>Events, workshops and seminars with limited seats</span></div>
+        <div class="use"><i aria-hidden="true">👩‍🏫</i><strong>Teachers</strong><span>Surveys, feedback and assignment details</span></div>
+        <div class="use"><i aria-hidden="true">🤝</i><strong>Societies</strong><span>Member and volunteer sign-ups</span></div>
+        <div class="use"><i aria-hidden="true">🏪</i><strong>Small businesses</strong><span>Contact forms, orders and bookings</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">Built with</span>
+      <h2>Simple, honest technology</h2>
+      <p>No heavy frameworks: every part is written by hand, which makes it fast and easy to understand.</p>
+    </div>
+    <div class="tech-row">
+      <div class="tech"><strong>HTML</strong><span>Page structure</span></div>
+      <div class="tech"><strong>CSS</strong><span>Design and themes</span></div>
+      <div class="tech"><strong>JavaScript</strong><span>Builder and animations</span></div>
+      <div class="tech"><strong>Node.js</strong><span>Server and API</span></div>
+      <div class="tech"><strong>SQL · SQLite</strong><span>Database and filters</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-alt" id="faq">
+    <div class="section">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions people ask</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is FormCraft free?</summary>
+          <p>Yes. Create an account and make as many forms as you like.</p>
+        </details>
+        <details>
+          <summary>Do people need an account to fill in my form?</summary>
+          <p>No. Anyone with the link or QR code can fill it in on a phone or a computer.</p>
+        </details>
+        <details>
+          <summary>Where are the answers stored?</summary>
+          <p>In a SQL database on the server. Each answer is linked to its form, and only the form's owner can see the responses and files.</p>
+        </details>
+        <details>
+          <summary>How does seat allocation decide who gets a seat?</summary>
+          <p>Responses that match your filters are eligible. The earliest eligible responses get the seats, the rest go on the waiting list, and you can still change any status by hand.</p>
+        </details>
+        <details>
+          <summary>Can I stop a form from getting too many answers?</summary>
+          <p>Yes. Close it with one switch, or set a response limit and it closes by itself.</p>
+        </details>
+        <details>
+          <summary>Can I get the data into Excel?</summary>
+          <p>Yes. Download the responses as a CSV file, which opens in Excel, or print the list.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Ready to make your first form?</h2>
+    <p>It takes a minute, and your form can be live before your tea gets cold.</p>
+    <a class="btn btn-big js-cta" href="/signup">Create a form</a>
+  </section>
+
+  <footer class="footer">
+    FormCraft — a university web project built with HTML, CSS, JavaScript, Node.js and SQL ·
+    <a href="https://github.com/zunairaimran/formcraft">Source code on GitHub</a>
+  </footer>
 
   <script src="/js/common.js"></script>
   <script src="/js/visuals.js"></script>
-  <script>
-    Visuals.mount(document.querySelector('.hero'), 'bubbles', 'absolute');
-
-    // Logged-in visitors go straight to their dashboard from the buttons
-    api('GET', '/api/me').then(() => {
-      document.getElementById('nav-login').classList.add('hidden');
-      for (const id of ['nav-cta', 'hero-cta']) {
-        const link = document.getElementById(id);
-        link.href = '/dashboard';
-        link.textContent = 'Go to dashboard';
-      }
-    }).catch(() => {});
-  </script>
+  <script src="/js/landing.js"></script>
 </body>
 </html>
